@@ -55,10 +55,10 @@ class BCM {
 	/* init hook handler */
 	function init_hook() {
 		$labels = array(
-				'name'                  => _x( 'Events', 'Post type general name', 'textdomain' ),
-				'singular_name'         => _x( 'Event', 'Post type singular name', 'textdomain' ),
-				'menu_name'             => _x( 'Events', 'Admin Menu text', 'textdomain' ),
-				'name_admin_bar'        => _x( 'Event', 'Add New on Toolbar', 'textdomain' ),
+				'name'                  => _x( 'BCM Events', 'Post type general name', 'textdomain' ),
+				'singular_name'         => _x( 'BCM Event', 'Post type singular name', 'textdomain' ),
+				'menu_name'             => _x( 'BCM Events', 'Admin Menu text', 'textdomain' ),
+				'name_admin_bar'        => _x( 'BCM Event', 'Add New on Toolbar', 'textdomain' ),
 				'add_new'               => __( 'Add New', 'textdomain' ),
 				'add_new_item'          => __( 'Add New Event', 'textdomain' ),
 				'new_item'              => __( 'New Event', 'textdomain' ),

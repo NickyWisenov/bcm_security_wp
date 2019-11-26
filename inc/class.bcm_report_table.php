@@ -184,7 +184,7 @@ register_activation_hook(__FILE__, 'bcm_install');
  */
 function bcm_admin_menu()
 {
-    add_menu_page(__('BCM Event Reports', 'bcm'), __('BCM Event Reports', 'bcm'), 'activate_plugins', 'bcm_reports', 'bcm_bcm_reports_page_handler');
+    add_menu_page(__('BCM Event Reports', 'bcm'), __('BCM Event Reports', 'bcm'), 'activate_plugins', 'bcm_reports', 'bcm_bcm_reports_page_handler', '', 35);
     add_submenu_page('bcm_reports', __('BCM Event Reports', 'bcm'), __('BCM Event Reports', 'bcm'), 'activate_plugins', 'bcm_reports', 'bcm_bcm_reports_page_handler');
     // add new will be described in next part
     add_submenu_page('bcm_reports', __('Add new', 'bcm'), __('Add new', 'bcm'), 'activate_plugins', 'bcm_reports_form', 'bcm_bcm_reports_form_page_handler');

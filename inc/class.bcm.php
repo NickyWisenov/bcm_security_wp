@@ -5,8 +5,6 @@ require_once( 'class.bcm_report_table.php' );
 
 class BCM {
 
-	var $bcmReportTable = null;
-
 	function __construct() {
 		// Do Nothing
 	}
@@ -92,8 +90,6 @@ class BCM {
 		);
  
 		register_post_type( 'bcm_event', $args );
-
-		$this->bcmReportTable = new BCM_REPORT_TABLE();
 
 		// $this->bcm_redirect_to_login_page();
 	}
@@ -188,6 +184,7 @@ class BCM {
 
 	/* report menu page content */
 	function bcm_report_page_contents() {
+		$bcmReportTable = new BCM_REPORT_TABLE();
 		?>
 		<div class="bcm-report-page-wrapper">
 			<div class="row filter-toolbar">
@@ -226,9 +223,9 @@ class BCM {
 				<form method="post">
 					<input type="hidden" name="page" value="bcm-event-report-page" />
 					<?php
-					$this->bcmReportTable->prepare_items();
-					$this->bcmReportTable->search_box('search', 'search_id');
-					$this->bcmReportTable->display();
+					$bcmReportTable->prepare_items();
+					$bcmReportTable->search_box('search', 'search_id');
+					$bcmReportTable->display();
 					?>
 				</form>
 			</div>

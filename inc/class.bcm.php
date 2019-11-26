@@ -373,7 +373,7 @@ class BCM {
 			$result = $wpdb->update(
 				$evt_table_name,
 				array(
-
+					'track_status' => 'paused',
 				),
 				array(
 					'id' => $row_id,

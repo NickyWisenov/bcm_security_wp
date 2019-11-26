@@ -1,0 +1,50 @@
+/* Mixins */
+@mixin d_flex($direction: 'row', $j-content : 'center', $a-items : 'center') {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $j-content;
+  align-items: $a-items;
+}
+
+.bcm-report-page-wrapper {
+  .row {
+    display: flex;
+    .col-6 {
+      flex: 1;
+      flex-basis: 50%;
+      width: 50%;
+    }
+  }
+  .input-group {
+    label {
+      font-weight: bold;
+      line-height: 100%;
+    }
+  }
+
+  .filter-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    .filter-inputs {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      .input-group {
+        margin: 0 5px;
+      }
+    }
+    .filter-buttons {
+      @include d_flex('row', 'center', 'center');
+      button {
+        font-size: 1.1rem;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .report-result {
+    @include d_flex('row', 'space-around', 'center');
+  }
+}

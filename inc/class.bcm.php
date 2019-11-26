@@ -369,7 +369,7 @@ class BCM {
 
 		$pause_time = current_time('mysql');
 
-		if ( !empty( $row_id ) && $track_status != 'paused' ) {
+		// if ( !empty( $row_id ) && $track_status != 'paused' ) {
 			$result = $wpdb->update(
 				$evt_table_name,
 				array(
@@ -379,7 +379,7 @@ class BCM {
 					'id' => $row_id,
 				)
 			);
-		}
+		// }
 
 		if ($result) {
 			wp_send_json_success(array('msg' => 'Paused correctly'));

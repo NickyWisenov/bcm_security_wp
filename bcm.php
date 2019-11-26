@@ -19,6 +19,3 @@ require_once( 'inc/metabox.php' );
 // Instantiate.
 $bcm = new BCM();
 $bcm->initialize();
-global $wpdb;
-echo $wpdb->prefix;
-exit;

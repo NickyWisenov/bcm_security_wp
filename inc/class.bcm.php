@@ -317,7 +317,7 @@ class BCM {
 					'user_id' => $user_id,
 					'evt_id' => $evt_id,
 					'end_time' => $end_time,
-					'end_ip_address' => $_SERVER['REMOTE_ADDR']
+					'end_ip_address' => $_SERVER['REMOTE_ADDR'],
 					'track_status' => 'ended'
 				)
 			);

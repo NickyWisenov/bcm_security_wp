@@ -165,7 +165,7 @@ function bcm_install()
 		  start_ip_address varchar(30) DEFAULT NULL,
 		  end_time datetime DEFAULT NULL,
 		  end_ip_address varchar(30) DEFAULT NULL,
-          activity varchar(255) DEFAULT NULL,
+          activity text DEFAULT NULL,
           track_status varchar(30) DEFAULT NULL,
 		  PRIMARY KEY  (id)
 		);";

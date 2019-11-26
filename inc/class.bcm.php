@@ -12,7 +12,7 @@ class BCM {
 	/* init class */
 	function initialize() {
 		// Define Constants
-		
+
 		// Add init hook
 		add_action('init', array($this, 'init_hook'));
 
@@ -27,7 +27,7 @@ class BCM {
 		}
 
 		if ( wp_doing_ajax() ) {
-			$this->ajax_init();	
+			$this->ajax_init();
 		}
 
 		// Add Redirect Action after Login
@@ -49,7 +49,10 @@ class BCM {
 		add_action('wp_ajax_start_tracking', array($this, 'bcm_ajax_event_start_tracking'));
 
 		// Hook Ajax End Tracking
-		add_action('wp_ajax_end_tracking', array($this, 'bcm_ajax_event_end_tracking'));		
+		add_action('wp_ajax_end_tracking', array($this, 'bcm_ajax_event_end_tracking'));
+
+		// Hook Ajax Pause Tracking
+		add_action('wp_ajax_pause_tracking', array($this, 'bcm_ajax_event_pause_tracking'));
 	}
 
 	/* init hook handler */
@@ -70,7 +73,7 @@ class BCM {
 				'not_found'             => __( 'No Events found.', 'textdomain' ),
 				'not_found_in_trash'    => __( 'No Events found in Trash.', 'textdomain' ),
 		);
- 
+
 		$args = array(
 				'labels'             => $labels,
 				'public'             => true,
@@ -85,7 +88,7 @@ class BCM {
 				'menu_position'      => null,
 				'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
 		);
- 
+
 		register_post_type( 'bcm_event', $args );
 
 		// $this->bcm_redirect_to_login_page();
@@ -107,7 +110,7 @@ class BCM {
 			'ajaxurl' => admin_url( 'admin-ajax.php' )
 		));
 	}
-	
+
 	/* bcm_page shortcode definition */
 	function bcm_page_shortcode() {
 		$post_type = 'bcm_event';
@@ -252,7 +255,7 @@ class BCM {
 		$user_id = get_current_user_id();
 
 		$evt_table_name = $wpdb->prefix . 'evt_employee';
-		$row_id = $wpdb->get_var( $wpdb->prepare( 
+		$row_id = $wpdb->get_var( $wpdb->prepare(
 			"SELECT id FROM $evt_table_name WHERE evt_id = %d and user_id = %d",
 			$evt_id, $user_id
 		));
@@ -281,9 +284,9 @@ class BCM {
 				)
 			);
 		}
-		
+
 		if ($result) {
-			wp_send_json_success(array('msg' => 'started correctly'));
+			wp_send_json_success(array('msg' => 'Started correctly'));
 		} else {
 			wp_send_json_error(array('msg' => 'error'));
 		}
@@ -300,7 +303,7 @@ class BCM {
 		$user_id = get_current_user_id();
 
 		$evt_table_name = $wpdb->prefix . 'evt_employee';
-		$row_id = $wpdb->get_var( $wpdb->prepare( 
+		$row_id = $wpdb->get_var( $wpdb->prepare(
 			"SELECT id FROM $evt_table_name WHERE evt_id = %d and user_id = %d",
 			$evt_id, $user_id
 		));
@@ -315,6 +318,7 @@ class BCM {
 					'evt_id' => $evt_id,
 					'end_time' => $end_time,
 					'end_ip_address' => $_SERVER['REMOTE_ADDR']
+					'track_status' => 'ended'
 				)
 			);
 		} else {
@@ -329,9 +333,56 @@ class BCM {
 				)
 			);
 		}
-		
+
 		if ($result) {
-			wp_send_json_success(array('msg' => 'started correctly'));
+			wp_send_json_success(array('msg' => 'Ended correctly'));
+		} else {
+			wp_send_json_error(array('msg' => 'error'));
+		}
+	}
+
+	/* pause tracking ajax handler */
+	function bcm_ajax_event_pause_tracking() {
+		global $wpdb;
+		if ( empty( $_POST['evt_id'] ) ) {
+			wp_send_json_error( array( 'msg' => 'wrong data' ) );
+		}
+
+		$evt_id = intval($_POST['evt_id']);
+		$user_id = get_current_user_id();
+
+		$evt_table_name = $wpdb->prefix . 'evt_employee';
+		$row_id = $wpdb->get_var( $wpdb->prepare(
+			"SELECT id FROM $evt_table_name WHERE evt_id = %d and user_id = %d",
+			$evt_id, $user_id
+		));
+
+		$activity = $wpdb->get_var( $wpdb->prepare(
+			"SELECT activity FROM $evt_table_name WHERE evt_id = %d and user_id = %d",
+			$evt_id, $user_id
+		));
+
+		$track_status = $wpdb->get_var( $wpdb->prepare(
+			"SELECT track_status FROM $evt_table_name WHERE evt_id = %d and user_id = %d",
+			$evt_id, $user_id
+		));
+
+		$pause_time = current_time('mysql');
+
+		if ( !empty( $row_id ) && $track_status != 'paused' ) {
+			$result = $wpdb->update(
+				$evt_table_name,
+				array(
+
+				),
+				array(
+					'id' => $row_id,
+				)
+			);
+		}
+
+		if ($result) {
+			wp_send_json_success(array('msg' => 'Paused correctly'));
 		} else {
 			wp_send_json_error(array('msg' => 'error'));
 		}
@@ -410,6 +461,14 @@ class BCM {
 				</button>
 				<button type="button" class="btn btn-danger btn-md end-btn" <?php if ( $time_data['status'] != 'active' ) echo ' disabled="disabled"' ?>>
 					END
+				</button>
+			</div>
+			<div class="row track-buttons">
+				<button type="button" class="btn btn-warning btn-md pause-btn" <?php if ( $time_data['status'] != 'active' ) echo ' disabled="disabled"' ?>>
+					PAUSE
+				</button>
+				<button type="button" class="btn btn-warning btn-md resume-btn" <?php if ( $time_data['status'] != 'active' ) echo ' disabled="disabled"' ?>>
+					RESUME
 				</button>
 			</div>
 		<?php

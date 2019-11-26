@@ -14,6 +14,7 @@ define ( 'BCM_BASENAME', plugin_basename(__FILE__) );
 define ( 'BCM_VERSION', '1.0' );
 
 require_once( 'inc/class.bcm.php' );
+require_once( 'inc/metabox.php' );
 
 // Instantiate.
 $bcm = new BCM();

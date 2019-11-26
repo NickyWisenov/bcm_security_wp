@@ -152,4 +152,15 @@
         border: none;
         font-weight: bold; }
 
+
+.bcm-ajax-loader {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.1);
+  display: none;
+}
+
 /*# sourceMappingURL=bcm-short-code.css.map */

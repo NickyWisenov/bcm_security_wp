@@ -2,8 +2,8 @@
 add_filter( 'rwmb_meta_boxes', 'your_prefix_register_meta_boxes' );
 function your_prefix_register_meta_boxes( $meta_boxes ) {
 	$meta_boxes[] = array (
-		'title' => 'Untitled Meta Box',
-		'id' => 'untitled-meta-box',
+		'title' => 'Event Detail',
+		'id' => 'event-detail-meta-box',
 		'post_types' => array(
 			0 => 'bcm_event',
 		),

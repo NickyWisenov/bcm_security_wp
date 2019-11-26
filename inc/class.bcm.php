@@ -38,9 +38,6 @@ class BCM {
 	function admin_init() {
 		// Add CSS and JS scripts
 		add_action('admin_enqueue_scripts', array($this, 'bcm_add_custom_scripts'));
-
-		// Add Admin Menu
-		add_action('admin_menu', array($this, 'report_admin_menu'));
 	}
 
 	/* ajax request handler */
@@ -167,73 +164,6 @@ class BCM {
 	function bcm_add_custom_scripts() {
 		wp_enqueue_style('bcm-admin-css', BCM_URL . 'css/bcm-admin.css');
 		wp_enqueue_script('bcm-admin', BCM_URL . 'js/bcm-admin.js', array('jquery'), true);
-	}
-
-	/* add admin report menu page */
-	function report_admin_menu () {
-		add_menu_page(
-			__('Event Report', 'textdomain'),
-			__('Event Report', 'textdomain'),
-			'manage_options',
-			'bcm-event-report-page',
-			array($this, 'bcm_report_page_contents'),
-			'dashicons-media-document',
-			50
-		);
-	}
-
-	/* report menu page content */
-	function bcm_report_page_contents() {
-		$bcmReportTable = new BCM_REPORT_TABLE();
-		?>
-		<div class="bcm-report-page-wrapper">
-			<div class="row filter-toolbar">
-				<div class="filter-inputs">
-					<div class="input-group">
-						<label for="employeeField">
-							Employee
-						</label>
-						<input type="text" id="employeeField" name="employee" placeholder="ex: Anthony" />
-					</div>
-					<div class="input-group">
-						<label for="startTimeField">
-							From
-						</label>
-						<input type="text" id="fromField" name="from" placeholder="2019-01-01" />
-					</div>
-					<div class="input-group">
-						<label for="toField">
-							To
-						</label>
-						<input type="text" id="toField" name="to" placeholder="2019-12-21" />
-					</div>
-					<div class="input-group">
-						<label for="eventField">
-							Event
-						</label>
-						<input type="text" id="eventField" name="event" placeholder="ex: Ceremony" />
-					</div>
-				</div>
-				<div class="filter-button">
-					<button type="button" id="bcmReportFilterButton" class="button button-primary filter-btn">Filter</button>
-				</div>
-			</div>
-
-			<div class="row search-result">
-				<form method="post">
-					<input type="hidden" name="page" value="bcm-event-report-page" />
-					<?php
-					$bcmReportTable->prepare_items();
-					$bcmReportTable->search_box('search', 'search_id');
-					$bcmReportTable->display();
-					?>
-				</form>
-			</div>
-			<div class="row report-result">
-				<button type="button" class="button button-primary export-btn">Export CSV</button>
-			</div>
-		</div>
-		<?php
 	}
 
 	/* event select ajax handler */

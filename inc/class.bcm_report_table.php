@@ -201,19 +201,53 @@ function bcm_bcm_reports_page_handler()
         $message = '<div class="updated below-h2" id="message"><p>' . sprintf(__('Items deleted: %d', 'bcm'), count($_REQUEST['id'])) . '</p></div>';
     }
     ?>
-<div class="wrap">
+<div class="bcm-report-page-wrapper wrap">
 
     <div class="icon32 icon32-posts-post" id="icon-edit"><br></div>
     <h2><?php _e('BCM Event Reports', 'bcm')?>
     	<a class="add-new-h2" href="<?php echo get_admin_url(get_current_blog_id(), 'admin.php?page=bcm_reports_form');?>"><?php _e('Add new', 'bcm')?></a>
     </h2>
     <?php echo $message; ?>
-
-    <form id="bcm_reports-table" method="GET">
-        <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>"/>
-        <?php $table->display() ?>
-    </form>
-
+    <div class="row filter-toolbar">
+        <div class="filter-inputs">
+            <div class="input-group">
+                <label for="employeeField">
+                    Employee
+                </label>
+                <input type="text" id="employeeField" name="employee" placeholder="ex: Anthony" />
+            </div>
+            <div class="input-group">
+                <label for="startTimeField">
+                    From
+                </label>
+                <input type="text" id="fromField" name="from" placeholder="2019-01-01" />
+            </div>
+            <div class="input-group">
+                <label for="toField">
+                    To
+                </label>
+                <input type="text" id="toField" name="to" placeholder="2019-12-21" />
+            </div>
+            <div class="input-group">
+                <label for="eventField">
+                    Event
+                </label>
+                <input type="text" id="eventField" name="event" placeholder="ex: Ceremony" />
+            </div>
+        </div>
+        <div class="filter-button">
+            <button type="button" id="bcmReportFilterButton" class="button button-primary filter-btn">Filter</button>
+        </div>
+    </div>
+    <div class="row search-result">
+        <form id="bcm_reports-table" method="GET">
+            <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>"/>
+            <?php $table->display() ?>
+        </form>
+    </div>
+    <div class="row report-result">
+        <button type="button" class="button button-primary export-btn">Export CSV</button>
+    </div>
 </div>
 <?php
 }
